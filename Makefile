@@ -1,6 +1,12 @@
 env:
 	poetry install
 
+format:
+	black src/ tests/
+
+lint:
+	pylint src/ tests/
+
 test:
 	poetry run pytest
 

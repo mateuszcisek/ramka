@@ -1,19 +1,37 @@
 from inspect import isclass
+import os
 from typing import Callable, Dict, Tuple, Union
 
 from parse import parse
 from webob import Request, Response
+from jinja2 import Environment, FileSystemLoader
+from whitenoise import WhiteNoise
 
 
 class App:
-    def __init__(self, force_trailing_slashes: bool = False):
+    def __init__(
+        self,
+        force_trailing_slashes: bool = False, 
+        templates_dir: str = None,
+        static_dir: str = None,
+    ):
         self._routes = {}
         self._force_trailing_slashes = force_trailing_slashes
 
-    def __call__(self, environ: Dict, start_response: Callable) -> Response:
+        self._templates_env = (
+            Environment(loader=FileSystemLoader(os.path.abspath(templates_dir)))
+            if templates_dir
+            else None
+        )
+
+        self._whitenoise = WhiteNoise(self.wsgi_app, root=static_dir, prefix="static/")
+
+    def __call__(self, environ, start_response):
+        return self._whitenoise(environ, start_response)
+
+    def wsgi_app(self, environ, start_response):
         request = Request(environ)
         response = self._handle_request(request)
-
         return response(environ, start_response)
 
     def _handle_trailing_slashes(self, path: str) -> str:
@@ -69,3 +87,12 @@ class App:
             return handler
 
         return wrapper
+
+    def template(self, template_name, context=None):
+        if not self._templates_env:
+            raise RuntimeError("Templates directory is not set.")
+
+        if context is None:
+            context = {}
+
+        return self._templates_env.get_template(template_name).render(**context)
