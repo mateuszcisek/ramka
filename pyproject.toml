@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "web-framework"
+version = "0.1.0"
+description = ""
+authors = ["Mateusz Cisek <mateusz.cisek@eigentech.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+gunicorn = "^20.1.0"
+WebOb = "^1.8.7"
+parse = "^1.19.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
