@@ -1,12 +1,9 @@
-import os
-import sys
+from web_framework.app import App
 
-sys.path.append(os.path.join(os.getcwd(), "src"))
-
-from web_framework.api import API
-
-
-app = API(force_trailing_slashes=True)
+app = App(
+    # Trailing slashes will be forced for all routes.
+    force_trailing_slashes=True,
+)
 
 
 @app.route("/")
