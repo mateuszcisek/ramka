@@ -1,22 +1,26 @@
-from inspect import isclass
 import os
-from typing import Callable, Dict, Tuple, Union
+from typing import Callable, Union
 
-from parse import parse
+from jinja2 import Environment, FileSystemLoader, Template
 from webob import Request, Response
-from jinja2 import Environment, FileSystemLoader
 from whitenoise import WhiteNoise
+
+from web_framework.routing import BaseRouteResolver, SimpleRouteResolver
+from web_framework.views.base_view import BaseView
+from web_framework.views.errors import http_404
 
 
 class App:
     def __init__(
         self,
-        force_trailing_slashes: bool = False, 
+        *,
         templates_dir: str = None,
         static_dir: str = None,
+        route_resolver: BaseRouteResolver = None,
+        http_404_not_found_handler: Callable = None,
     ):
-        self._routes = {}
-        self._force_trailing_slashes = force_trailing_slashes
+        self._route_resolver = route_resolver or SimpleRouteResolver()
+        self._http_404_not_found_handler = http_404_not_found_handler
 
         self._templates_env = (
             Environment(loader=FileSystemLoader(os.path.abspath(templates_dir)))
@@ -24,71 +28,39 @@ class App:
             else None
         )
 
-        self._whitenoise = WhiteNoise(self.wsgi_app, root=static_dir, prefix="static/")
+        self._whitenoise = WhiteNoise(self._wsgi_app, root=static_dir, prefix="static/")
 
     def __call__(self, environ, start_response):
         return self._whitenoise(environ, start_response)
 
-    def wsgi_app(self, environ, start_response):
+    def _wsgi_app(self, environ, start_response):
         request = Request(environ)
         response = self._handle_request(request)
         return response(environ, start_response)
 
-    def _handle_trailing_slashes(self, path: str) -> str:
-        if self._force_trailing_slashes and not path.endswith("/"):
-            return f"{path}/"
-
-        return path
-
-    def _find_handler(
-        self, request_path
-    ) -> Tuple[Union[Callable, None], Union[str, None]]:
-        request_path = self._handle_trailing_slashes(request_path)
-
-        for path, handler in self._routes.items():
-            parse_result = parse(path, request_path)
-            if parse_result is not None:
-                return handler, parse_result.named
-
-        return None, None
-
     def _handle_request(self, request: Request) -> Response:
         response = Response()
-        handler, kwargs = self._find_handler(request_path=request.path)
+        parsed_route = self._route_resolver.resolve(request.path)
 
-        if handler is not None:
-            if isclass(handler):
-                handler = getattr(handler(), request.method.lower(), None)
-                if handler is None:
-                    raise AttributeError("Method not allowed", request.method)
-
-            handler(request, response, **kwargs)
+        if parsed_route:
+            handler = parsed_route.get_handler(request.method)
+            handler(request, response, **parsed_route.params)
         else:
-            self._default_response(response)
+            not_found_handler = self._http_404_not_found_handler or http_404
+            not_found_handler(request, response)
 
         return response
 
-    def _default_response(self, response: Response) -> None:
-        response.status_code = 404
-        response.text = "Not found."
+    def has_route(self, path: str) -> bool:
+        return self._route_resolver.has_route(path)
 
-    def has_route(self, path) -> bool:
-        return path in self._routes
-
-    def add_route(self, path: str, handler: Callable) -> None:
-        assert not self.has_route(path), "Such route already exists."
-
-        path = self._handle_trailing_slashes(path)
-        self._routes[path] = handler
+    def add_route(self, path: str, view: Union[BaseView, Callable]) -> None:
+        self._route_resolver.add_route(path, view)
 
     def route(self, path: str) -> Callable:
-        def wrapper(handler):
-            self.add_route(path, handler)
-            return handler
+        return self._route_resolver.route(path)
 
-        return wrapper
-
-    def template(self, template_name, context=None):
+    def template(self, template_name, context=None) -> Template:
         if not self._templates_env:
             raise RuntimeError("Templates directory is not set.")
 

@@ -8,8 +8,6 @@ TEMPLATES_DIR = os.path.join(ROOT_DIR, "templates")
 
 
 app = App(
-    # Trailing slashes will be forced for all routes.
-    force_trailing_slashes=True,
     # Directory where the templates are located.
     templates_dir=TEMPLATES_DIR,
     # Directory where the static files are located.

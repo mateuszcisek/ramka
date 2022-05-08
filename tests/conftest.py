@@ -1,26 +1,39 @@
 import pytest
 from requests import Session as RequestsSession
 
+from web_framework.routing.resolver import SimpleRouteResolver
 from web_framework.test import TestApp
-
-
-def _create_app(force_trailing_slashes: bool = False) -> TestApp:
-    return TestApp(force_trailing_slashes=force_trailing_slashes)
+from web_framework.views.base_view import BaseView
 
 
 @pytest.fixture
-def create_app():
-    return _create_app
+def app():
+    return TestApp()
 
 
 @pytest.fixture
 def create_session():
-    def _create_session(
-        app: TestApp = None, force_trailing_slashes: bool = False
-    ) -> RequestsSession:
+    def _create_session(app: TestApp = None,) -> RequestsSession:
         if not app:
-            app = _create_app(force_trailing_slashes=force_trailing_slashes)
+            app = TestApp()
 
         return app.test_session
 
     return _create_session
+
+
+@pytest.fixture
+def sample_class_view():
+    class SampleView(BaseView):
+        def get(self, request, response):
+            response.text = "Hello, world!"
+
+    return SampleView
+
+
+@pytest.fixture
+def sample_func_view():
+    def sample_view(self, request, response):
+        response.text = "Hello, world!"
+
+    return sample_view

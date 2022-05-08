@@ -2,6 +2,7 @@ env:
 	poetry install
 
 format:
+	isort src/ tests/
 	black src/ tests/
 
 lint:
@@ -12,3 +13,6 @@ test:
 
 example:
 	PYTHONPATH=./src poetry run gunicorn --reload src.web_framework_example.sample_app:app
+
+shell:
+	PYTHONPATH=./src poetry run python

@@ -1,7 +1,8 @@
-from web_framework.app import App
-
 from requests import Session as RequestsSession
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
+
+from web_framework.app import App
+from web_framework.routing.resolver import BaseRouteResolver
 
 
 class TestSession(RequestsSession):
@@ -41,10 +42,8 @@ class TestSession(RequestsSession):
 
 
 class TestApp(App):
-    def __init__(
-        self, force_trailing_slashes: bool = False, base_url: str = "http://testserver"
-    ):
-        super().__init__(force_trailing_slashes=force_trailing_slashes)
+    def __init__(self, *, base_url: str = "http://testserver"):
+        super().__init__()
         self._base_url = base_url
 
     @property
