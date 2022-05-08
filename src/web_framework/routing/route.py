@@ -32,7 +32,7 @@ class Route:
     ):
         self.path = path
         self.view = view
-        self.methods = methods or ["get"]
+        self.methods = methods or ["GET"]
 
     def get_handler(self, method: Optional[str] = "get") -> Callable:
         if isclass(self.view):

@@ -2,8 +2,8 @@ env:
 	poetry install
 
 format:
-	isort src/ tests/
-	black src/ tests/
+	poetry run isort src/ tests/
+	poetry run black src/ tests/
 
 lint:
 	./scripts/run_linting.sh

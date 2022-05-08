@@ -6,8 +6,7 @@ from web_framework.request import Request
 from web_framework.response import Response
 from web_framework.routing import BaseRouter, SimpleRouter
 from web_framework.templates import BaseTemplateEngine, JinjaTemplateEngine
-from web_framework.views.base_view import BaseView
-from web_framework.views.errors import http_404
+from web_framework.views import BaseView, default_error_handler, http_404
 
 
 class App:
@@ -21,11 +20,14 @@ class App:
         template_engine: Optional[BaseTemplateEngine] = None,
         template_engine_kwargs: Optional[Dict] = None,
         http_404_not_found_handler: Optional[Callable] = None,
+        error_handler: Optional[Callable] = None,
     ):
         self._router = router or SimpleRouter(**(router_kwargs or {}))
         self._template_engine = template_engine or JinjaTemplateEngine(
             **(template_engine_kwargs or {"root_dir": root_dir})
         )
+
+        self._error_handler = error_handler or default_error_handler
 
         self._http_404_not_found_handler = http_404_not_found_handler
 
@@ -43,12 +45,18 @@ class App:
         response = Response()
         parsed_route = self._router.resolve(request.path)
 
-        if parsed_route:
-            handler = parsed_route.get_handler(request.method)
-            handler(request, response, **parsed_route.params)
-        else:
-            not_found_handler = self._http_404_not_found_handler or http_404
-            not_found_handler(request, response)
+        try:
+            if parsed_route:
+                handler = parsed_route.get_handler(request.method)
+                handler(request, response, **parsed_route.params)
+            else:
+                not_found_handler = self._http_404_not_found_handler or http_404
+                not_found_handler(request, response)
+        except Exception as error:
+            if self._error_handler is None:
+                raise error
+
+            self._error_handler(request, response, error)
 
         return response
 

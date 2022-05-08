@@ -11,4 +11,8 @@ def http_404(_, response):
     _error_page(response, 404, "Not found.")
 
 
-__all__ = ["http_404"]
+def default_error_handler(_, response, error: Exception):
+    _error_page(response, 500, str(error))
+
+
+__all__ = ["default_error_handler", "http_404"]
