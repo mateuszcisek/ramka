@@ -19,13 +19,6 @@ def test_get_handler_with_class_based_view_and_incorrect_method_name(sample_clas
         route.get_handler("POST")
 
 
-def test_get_handler_with_class_based_view_and_no_method_name(sample_class_view):
-    route = Route("/sample_route", sample_class_view)
-
-    with pytest.raises(ValueError):
-        route.get_handler(method=None)
-
-
 def test_get_handler_with_function_view(sample_func_view):
 
     route = Route("/sample_route", sample_func_view)

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Callable, List, Union
+from typing import Callable, List, Optional, Union
 
 from parse import parse
 
@@ -49,15 +49,20 @@ class SimpleRouter:
     def has_route(self, path: str) -> bool:
         return self.resolve(path) is not None
 
-    def add_route(self, path: str, view: Union[BaseView, Callable]) -> None:
+    def add_route(
+        self,
+        path: str,
+        view: Union[BaseView, Callable],
+        methods: Optional[List[str]] = None,
+    ) -> None:
         if self.has_route(path):
             raise AttributeError("Route already exists.")
 
-        self.routes.append(Route(self._handle_trailing_slashes(path), view))
+        self.routes.append(Route(self._handle_trailing_slashes(path), view, methods))
 
-    def route(self, path: str) -> Callable:
+    def route(self, path: str, methods: Optional[List[str]] = None) -> Callable:
         def wrapper(view: Union[BaseView, Callable]):
-            self.add_route(path, view)
+            self.add_route(path, view, methods)
             return view
 
         return wrapper
