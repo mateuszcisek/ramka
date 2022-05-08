@@ -34,7 +34,7 @@ class Route:
         self.view = view
         self.methods = methods or ["GET"]
 
-    def get_handler(self, method: Optional[str] = "get") -> Callable:
+    def get_handler(self, method: Optional[str] = "GET") -> Callable:
         if isclass(self.view):
             if not method:
                 raise ValueError("Method is required for class-based views.")
