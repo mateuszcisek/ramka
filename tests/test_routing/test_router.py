@@ -1,4 +1,5 @@
 import pytest
+
 from web_framework.routing import Route, SimpleRouter
 
 
@@ -22,4 +23,3 @@ def test_simple_router_add_route_with_existing_path(sample_func_view):
 
     with pytest.raises(AttributeError):
         router.add_route("/", sample_func_view)
-

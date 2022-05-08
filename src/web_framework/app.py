@@ -1,11 +1,11 @@
-import os
-from typing import Callable, Union
+from typing import Any, Callable, Dict, Optional, Union
 
-from jinja2 import Environment, FileSystemLoader, Template
-from webob import Request, Response
 from whitenoise import WhiteNoise
 
+from web_framework.request import Request
+from web_framework.response import Response
 from web_framework.routing import BaseRouter, SimpleRouter
+from web_framework.templates import BaseTemplateEngine, Jinja2TemplateEngine
 from web_framework.views.base_view import BaseView
 from web_framework.views.errors import http_404
 
@@ -14,19 +14,20 @@ class App:
     def __init__(
         self,
         *,
-        templates_dir: str = None,
-        static_dir: str = None,
-        router: BaseRouter = None,
-        http_404_not_found_handler: Callable = None,
+        root_dir: str,
+        static_dir: Optional[str] = None,
+        router: Optional[BaseRouter] = None,
+        router_kwargs: Optional[Dict] = None,
+        template_engine: Optional[BaseTemplateEngine] = None,
+        template_engine_kwargs: Optional[Dict] = None,
+        http_404_not_found_handler: Optional[Callable] = None,
     ):
-        self._router = router or SimpleRouter()
-        self._http_404_not_found_handler = http_404_not_found_handler
-
-        self._templates_env = (
-            Environment(loader=FileSystemLoader(os.path.abspath(templates_dir)))
-            if templates_dir
-            else None
+        self._router = router or SimpleRouter(**(router_kwargs or {}))
+        self._template_engine = template_engine or Jinja2TemplateEngine(
+            **(template_engine_kwargs or {"root_dir": root_dir})
         )
+
+        self._http_404_not_found_handler = http_404_not_found_handler
 
         self._whitenoise = WhiteNoise(self._wsgi_app, root=static_dir, prefix="static/")
 
@@ -60,11 +61,5 @@ class App:
     def route(self, path: str) -> Callable:
         return self._router.route(path)
 
-    def template(self, template_name, context=None) -> Template:
-        if not self._templates_env:
-            raise RuntimeError("Templates directory is not set.")
-
-        if context is None:
-            context = {}
-
-        return self._templates_env.get_template(template_name).render(**context)
+    def template(self, template_name, context=None) -> Any:
+        return self._template_engine.render(template_name, context)

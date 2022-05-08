@@ -6,13 +6,13 @@ format:
 	black src/ tests/
 
 lint:
-	pylint src/ tests/
+	./scripts/run_linting.sh
 
 test:
-	poetry run pytest
+	./scripts/run_tests.sh
 
 example:
 	PYTHONPATH=./src poetry run gunicorn --reload src.web_framework_example.sample_app:app
 
 shell:
-	PYTHONPATH=./src poetry run python
+	PYTHONPATH=./src poetry run ipython

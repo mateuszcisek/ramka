@@ -4,12 +4,10 @@ from web_framework.app import App
 
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 STATIC_DIR = os.path.join(ROOT_DIR, "static")
-TEMPLATES_DIR = os.path.join(ROOT_DIR, "templates")
 
 
 app = App(
-    # Directory where the templates are located.
-    templates_dir=TEMPLATES_DIR,
+    root_dir=ROOT_DIR,
     # Directory where the static files are located.
     static_dir=STATIC_DIR,
 )
@@ -52,5 +50,5 @@ app.add_route("/another_route", another_route)
 
 
 @app.route("/html/")
-def sum(req, resp):
-    resp.body = app.template("index.html").encode()
+def html(req, resp):
+    resp.body = app.template("sample/template.html")

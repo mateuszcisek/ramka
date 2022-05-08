@@ -20,9 +20,6 @@ class Route:
 
             return handler
 
-        if method:
-            raise ValueError("Method is not allowed for function-based views.")
-
         return self.view
 
     def __str__(self) -> str:
