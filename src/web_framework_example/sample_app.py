@@ -14,41 +14,41 @@ app = App(
 
 
 @app.route("/")
-def home(request, response):
+def home(_, response):
     response.text = "Hello from the HOME page"
 
 
 @app.route("/about")
-def about(request, response):
+def about(_, response):
     response.text = "Hello from the ABOUT page"
 
 
 @app.route("/hello/{name}/")
-def hello(request, response, name):
+def hello(_, response, name):
     response.text = f"Hello {name}"
 
 
-@app.route("/sum/{a:d}/{b:d}/")
-def sum(request, response, a, b):
-    response.text = f"Sum {a + b}"
+@app.route("/sum/{first_number:d}/{second_number:d}/")
+def sum_view(_, response, first_number, second_number):
+    response.text = f"Sum {first_number + second_number}"
 
 
 @app.route("/book")
 class BooksResource:
-    def get(self, req, resp):
-        resp.text = "Books Page"
+    def get(self, _, response):  # pylint: disable=no-self-use
+        response.text = "Books Page"
 
-    def post(self, req, resp):
-        resp.text = "Endpoint to create a book"
+    def post(self, _, response):  # pylint: disable=no-self-use
+        response.text = "Endpoint to create a book"
 
 
-def another_route(req, resp):
-    resp.text = "Another route"
+def another_route(_, response):
+    response.text = "Another route"
 
 
 app.add_route("/another_route", another_route)
 
 
 @app.route("/html/")
-def html(req, resp):
-    resp.body = app.template("sample/template.html")
+def html(_, response):
+    response.body = app.template("sample/template.html")

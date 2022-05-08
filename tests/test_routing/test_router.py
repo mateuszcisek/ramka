@@ -1,18 +1,18 @@
 import pytest
 
-from web_framework.routing import Route, SimpleRouter
+from web_framework.routing import SimpleRouter
 
 
 def test_simple_router_add_route(sample_func_view):
     router = SimpleRouter()
 
-    assert not router._routes
+    assert not router.routes
 
     router.add_route("/", sample_func_view)
 
-    assert len(router._routes) == 1
+    assert len(router.routes) == 1
 
-    route = router._routes[0]
+    route = router.routes[0]
     assert route.path == "/"
     assert route.view == sample_func_view
 

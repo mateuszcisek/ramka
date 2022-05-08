@@ -23,7 +23,7 @@ def test_get_handler_with_class_based_view_and_no_method_name(sample_class_view)
     route = Route("/sample_route", sample_class_view)
 
     with pytest.raises(ValueError):
-        route.get_handler()
+        route.get_handler(method=None)
 
 
 def test_get_handler_with_function_view(sample_func_view):
@@ -33,14 +33,6 @@ def test_get_handler_with_function_view(sample_func_view):
 
     assert handler is not None
     assert handler.__name__ == "sample_view"
-
-
-def test_get_handler_with_function_view_and_method_name(sample_func_view):
-
-    route = Route("/sample_route", sample_func_view)
-
-    with pytest.raises(ValueError):
-        route.get_handler("GET")
 
 
 def test_parsed_route_from_route(sample_class_view):

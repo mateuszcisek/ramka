@@ -1,8 +1,9 @@
+import os
+
 from requests import Session as RequestsSession
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 
 from web_framework.app import App
-from web_framework.routing.router import BaseRouter
 
 
 class TestSession(RequestsSession):
@@ -15,35 +16,35 @@ class TestSession(RequestsSession):
     def base_url(self) -> str:
         return self._base_url.rstrip("/")
 
-    def _format_path(self, path: str) -> str:
-        return path.lstrip("/")
-
-    def _request(self, method, path, *args, **kwargs):
+    def _request(self, method, url, **kwargs):
         func = getattr(super(), method)
         if not func:
-            raise AttributeError("Method %s not supported." % method)
+            raise AttributeError(f"Method {method} not supported.")
 
-        return func(f"{self.base_url}/{self._format_path(path)}", *args, **kwargs)
+        url = url.lstrip("/")
+        return func(f"{self.base_url}/{url}", **kwargs)
 
-    def get(self, path, *args, **kwargs):
-        return self._request("get", path, *args, **kwargs)
+    def get(self, url, **kwargs):
+        return self._request("get", url, **kwargs)
 
-    def post(self, path, *args, **kwargs):
-        return self._request("post", path, *args, **kwargs)
+    def post(self, url, data=None, json=None, **kwargs):
+        return self._request("post", url, data=data, json=json, **kwargs)
 
-    def put(self, path, *args, **kwargs):
-        return self._request("put", path, *args, **kwargs)
+    def put(self, url, data=None, **kwargs):
+        return self._request("put", url, data=data, **kwargs)
 
-    def patch(self, path, *args, **kwargs):
-        return self._request("patch", path, *args, **kwargs)
+    def patch(self, url, data=None, **kwargs):
+        return self._request("patch", url, data=data, **kwargs)
 
-    def delete(self, path, *args, **kwargs):
-        return self._request("delete", path, *args, **kwargs)
+    def delete(self, url, **kwargs):
+        return self._request("delete", url, **kwargs)
 
 
 class TestApp(App):
     def __init__(self, *, base_url: str = "http://testserver"):
-        super().__init__()
+        super().__init__(
+            root_dir=os.getcwd(),
+        )
         self._base_url = base_url
 
     @property

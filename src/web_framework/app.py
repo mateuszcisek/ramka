@@ -5,7 +5,7 @@ from whitenoise import WhiteNoise
 from web_framework.request import Request
 from web_framework.response import Response
 from web_framework.routing import BaseRouter, SimpleRouter
-from web_framework.templates import BaseTemplateEngine, Jinja2TemplateEngine
+from web_framework.templates import BaseTemplateEngine, JinjaTemplateEngine
 from web_framework.views.base_view import BaseView
 from web_framework.views.errors import http_404
 
@@ -23,7 +23,7 @@ class App:
         http_404_not_found_handler: Optional[Callable] = None,
     ):
         self._router = router or SimpleRouter(**(router_kwargs or {}))
-        self._template_engine = template_engine or Jinja2TemplateEngine(
+        self._template_engine = template_engine or JinjaTemplateEngine(
             **(template_engine_kwargs or {"root_dir": root_dir})
         )
 

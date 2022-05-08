@@ -15,4 +15,4 @@ example:
 	PYTHONPATH=./src poetry run gunicorn --reload src.web_framework_example.sample_app:app
 
 shell:
-	PYTHONPATH=./src poetry run ipython
+	PYTHONPATH=./src poetry run ipython --pprint --color-info

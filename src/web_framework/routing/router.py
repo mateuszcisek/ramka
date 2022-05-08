@@ -28,7 +28,7 @@ class SimpleRouter:
     def __init__(self, force_trailing_slashes: bool = True):
         super().__init__()
 
-        self._routes: List[Route] = []
+        self.routes: List[Route] = []
         self._force_trailing_slashes = force_trailing_slashes
 
     def _handle_trailing_slashes(self, path: str) -> str:
@@ -39,7 +39,7 @@ class SimpleRouter:
 
     def resolve(self, path: str) -> ParsedRoute:
         path = self._handle_trailing_slashes(path)
-        for route in self._routes:
+        for route in self.routes:
             parsed_path = parse(route.path, path)
             if parsed_path:
                 return ParsedRoute(route.path, route.view, parsed_path.named)
@@ -53,7 +53,7 @@ class SimpleRouter:
         if self.has_route(path):
             raise AttributeError("Route already exists.")
 
-        self._routes.append(Route(self._handle_trailing_slashes(path), view))
+        self.routes.append(Route(self._handle_trailing_slashes(path), view))
 
     def route(self, path: str) -> Callable:
         def wrapper(view: Union[BaseView, Callable]):

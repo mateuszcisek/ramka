@@ -1,4 +1,3 @@
-
 from webob import Request as BaseRequest
 
 

@@ -1,7 +1,7 @@
 from abc import ABC
 
 
-class BaseView(ABC):
+class BaseView(ABC):  # pylint: disable=too-few-public-methods
     pass
 
 
