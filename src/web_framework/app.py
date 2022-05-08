@@ -5,7 +5,7 @@ from jinja2 import Environment, FileSystemLoader, Template
 from webob import Request, Response
 from whitenoise import WhiteNoise
 
-from web_framework.routing import BaseRouteResolver, SimpleRouteResolver
+from web_framework.routing import BaseRouter, SimpleRouter
 from web_framework.views.base_view import BaseView
 from web_framework.views.errors import http_404
 
@@ -16,10 +16,10 @@ class App:
         *,
         templates_dir: str = None,
         static_dir: str = None,
-        route_resolver: BaseRouteResolver = None,
+        router: BaseRouter = None,
         http_404_not_found_handler: Callable = None,
     ):
-        self._route_resolver = route_resolver or SimpleRouteResolver()
+        self._router = router or SimpleRouter()
         self._http_404_not_found_handler = http_404_not_found_handler
 
         self._templates_env = (
@@ -40,7 +40,7 @@ class App:
 
     def _handle_request(self, request: Request) -> Response:
         response = Response()
-        parsed_route = self._route_resolver.resolve(request.path)
+        parsed_route = self._router.resolve(request.path)
 
         if parsed_route:
             handler = parsed_route.get_handler(request.method)
@@ -52,13 +52,13 @@ class App:
         return response
 
     def has_route(self, path: str) -> bool:
-        return self._route_resolver.has_route(path)
+        return self._router.has_route(path)
 
     def add_route(self, path: str, view: Union[BaseView, Callable]) -> None:
-        self._route_resolver.add_route(path, view)
+        self._router.add_route(path, view)
 
     def route(self, path: str) -> Callable:
-        return self._route_resolver.route(path)
+        return self._router.route(path)
 
     def template(self, template_name, context=None) -> Template:
         if not self._templates_env:

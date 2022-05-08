@@ -1,4 +1,4 @@
-from web_framework.routing.resolver import BaseRouteResolver, SimpleRouteResolver
 from web_framework.routing.route import ParsedRoute, Route
+from web_framework.routing.router import BaseRouter, SimpleRouter
 
-__all__ = ["BaseRouteResolver", "SimpleRouteResolver", "ParsedRoute", "Route"]
+__all__ = ["BaseRouter", "SimpleRouter", "ParsedRoute", "Route"]

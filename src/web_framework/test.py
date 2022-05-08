@@ -2,7 +2,7 @@ from requests import Session as RequestsSession
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 
 from web_framework.app import App
-from web_framework.routing.resolver import BaseRouteResolver
+from web_framework.routing.router import BaseRouter
 
 
 class TestSession(RequestsSession):

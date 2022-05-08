@@ -7,7 +7,7 @@ from web_framework.routing.route import ParsedRoute, Route
 from web_framework.views import BaseView
 
 
-class BaseRouteResolver(ABC):
+class BaseRouter(ABC):
     def __init__(self):
         pass
 
@@ -24,7 +24,7 @@ class BaseRouteResolver(ABC):
         pass
 
 
-class SimpleRouteResolver:
+class SimpleRouter:
     def __init__(self, force_trailing_slashes: bool = True):
         super().__init__()
 
@@ -63,4 +63,4 @@ class SimpleRouteResolver:
         return wrapper
 
 
-__all__ = ["BaseRouteResolver", "SimpleRouteResolver"]
+__all__ = ["BaseRouter", "SimpleRouter"]

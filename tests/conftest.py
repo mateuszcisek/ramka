@@ -1,7 +1,6 @@
 import pytest
 from requests import Session as RequestsSession
 
-from web_framework.routing.resolver import SimpleRouteResolver
 from web_framework.test import TestApp
 from web_framework.views.base_view import BaseView
 
