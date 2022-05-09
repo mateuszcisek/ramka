@@ -1,7 +1,10 @@
-from typing import Type
+from typing import TYPE_CHECKING, Type
 
 from web_framework.request import Request
 from web_framework.response import Response
+
+if TYPE_CHECKING:
+    from web_framework.app import App
 
 
 class Middleware:
@@ -18,7 +21,12 @@ class Middleware:
     methods or both.
     """
 
-    def __init__(self, app):
+    def __init__(self, app: "App") -> None:
+        """Initialize the middleware.
+
+        Arguments:
+            app (App): The application to wrap.
+        """
         self._app = app
 
     def __call__(self, environ, start_response) -> Response:

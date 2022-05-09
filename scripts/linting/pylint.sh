@@ -2,7 +2,7 @@
 
 echo "Running pylint..."
 
-poetry run pylint src/ tests/
+poetry run pylint src/ tests/ examples/
 return_code="$?"
 
 if [ "$return_code" != 0 ]; then

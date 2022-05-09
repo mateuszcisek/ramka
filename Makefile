@@ -2,8 +2,8 @@ env:
 	poetry install
 
 format:
-	poetry run isort src/ tests/
-	poetry run black src/ tests/
+	poetry run isort src/ tests/ examples/
+	poetry run black src/ tests/ examples/
 
 lint:
 	./scripts/run_linting.sh
@@ -11,8 +11,8 @@ lint:
 test:
 	./scripts/run_tests.sh
 
-example:
-	PYTHONPATH=./src poetry run gunicorn --reload src.web_framework_example.sample_app:app
+example-sample-routes:
+	PYTHONPATH=./src poetry run gunicorn --reload examples.sample_routes.app:app
 
 shell:
 	PYTHONPATH=./src poetry run ipython --pprint --color-info

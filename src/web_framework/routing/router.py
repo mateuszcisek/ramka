@@ -55,7 +55,7 @@ class BaseRouter(ABC):
         """
 
     @abstractmethod
-    def resolve(self, path: str = None) -> ResolvedRoute:
+    def resolve(self, path: str) -> ResolvedRoute:
         """Resolve the route for the given path.
 
         Arguments:
@@ -171,6 +171,7 @@ class SimpleRouter(BaseRouter):
 
         Arguments:
             path (str): The path to add the route to.
+            methods (Optional[List[str]]): The list of methods to add the route to.
         """
 
         def wrapper(view: Union[BaseView, Callable]):

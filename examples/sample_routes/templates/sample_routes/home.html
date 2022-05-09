@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+  <div class="card">
+    <h1>Hello!</h1>
+    <p>This is a sample template.</p>
+    <p>
+      Here are some other pages:
+    </p>
+
+    <dl>
+      <dt><tt>/text/</tt></dt>
+      <dd><a href="/text" target="_blank">Page with plain text</a></dd>
+
+      <dt><tt>/hello/{name}/</tt></dt>
+      <dd><a href="/hello/world/" target="_blank">Page with one dynamic parameters</a></dd>
+
+      <dt><tt>/add/{fist_number}/{second_number}/</tt></dt>
+      <dd><a href="/add/1/2/" target="_blank">Page with two dynamic parameters</a></dd>
+
+      <dt><tt>/external/</tt></dt>
+      <dd><a href="/external/" target="_blank">Route with a handler defined outside of main application.</a></dd>
+
+      <dt><tt>/limited-view/</tt></dt>
+      <dd><a href="/limited-view/" target="_blank">Function-based view, supports <tt>GET</tt> and <tt>POST</tt> HTTP
+          methods.</a>
+      </dd>
+
+      <dt><tt>/book/</tt></dt>
+      <dd><a href="/book/" target="_blank">Class-based view, supports <tt>GET</tt> and <tt>POST</tt> HTTP methods.</a>
+      </dd>
+    </dl>
+
+    <p>See file <tt>examples/sample_routes/app.py</tt> to learn more.</p>
+  </div>
+</body>
+
+</html>

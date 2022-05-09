@@ -67,7 +67,7 @@ class Route:
 
             return handler
 
-        if not callable(self.view):
+        if callable(self.view):
             if method not in self.methods:
                 raise ValueError(f"Method {method} is not allowed.")
 

@@ -18,12 +18,17 @@ def _error_page(response: Response, error_code: int, message: str) -> None:
     response.text = json.dumps({"error": message})
 
 
-def http_404(_, response):
+def http_404_not_found(_, response):
     """The default 404 handler.
 
     It sends a 404 error page to the client.
     """
     _error_page(response, 404, "Not found.")
+
+
+def http_405_method_not_allowed(_, response):
+    """The default handler for methods that have not been implemented."""
+    _error_page(response, 405, "Method not allowed.")
 
 
 def default_error_handler(_, response, error: Exception):
@@ -36,4 +41,4 @@ def default_error_handler(_, response, error: Exception):
     _error_page(response, 500, str(error))
 
 
-__all__ = ["default_error_handler", "http_404"]
+__all__ = ["default_error_handler", "http_404_not_found", "http_405_method_not_allowed"]

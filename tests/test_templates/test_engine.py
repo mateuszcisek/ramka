@@ -8,10 +8,15 @@ from web_framework.templates import JinjaTemplateEngine
 
 @patch("web_framework.templates.engine.os.path.isdir")
 def test_jinja_engine_initialized_with_correct_root_dir(mock_os):
-
+    """
+    Given two directories with templates and a JinjaTemplateEngine
+    When I initialize the engine
+    Then all templates should be registered by the engine.
+    """
     mock_os.path.isdir.return_value = True
 
     with tempfile.TemporaryDirectory() as root_dir:
+        # Given
         dir_1_path = os.path.join(root_dir, "module_1", "templates", "module_1")
         dir_2_path = os.path.join(root_dir, "module_2", "templates", "module_2")
 
@@ -21,8 +26,10 @@ def test_jinja_engine_initialized_with_correct_root_dir(mock_os):
         Path(os.path.join(dir_1_path, "sample_template.html")).touch()
         Path(os.path.join(dir_2_path, "sample_template.html")).touch()
 
+        # When
         engine = JinjaTemplateEngine(root_dir)
 
+        # Then
         assert engine.has_template("module_1/sample_template.html")
         assert engine.has_template("module_2/sample_template.html")
         assert not engine.has_template("sample_template.html")

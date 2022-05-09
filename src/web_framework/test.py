@@ -15,6 +15,12 @@ class TestSession(RequestsSession):
     """
 
     def __init__(self, base_url: str, adapter: RequestsWSGIAdapter):
+        """Initialize the test session.
+
+        Arguments:
+            base_url (str): The base URL to use for the test session.
+            adapter (WSGIAdapter): The adapter to use for the test session.
+        """
         super().__init__()
         self._base_url = base_url
         self.mount(prefix=self._base_url, adapter=adapter)

@@ -9,9 +9,17 @@ html, body {
 }
 
 .card {
-    width: 400px;
+    width: 500px;
     border-radius: 10px;
     background-color: #ffffff;
     padding: 10px 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card dt, .card dd {
+  padding: 8px;
+}
+
+.card dd { 
+  padding-bottom: 20px;
 }
