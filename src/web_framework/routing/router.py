@@ -62,7 +62,7 @@ class BaseRouter(ABC):
             path (str): The path to resolve the route for.
 
         Returns:
-            (ResolvedRoute): The resolved route.
+            ResolvedRoute: The resolved route.
         """
 
     @abstractmethod
@@ -73,7 +73,7 @@ class BaseRouter(ABC):
             path (str): The path to check.
 
         Returns:
-            (bool): True if the router has a route for the given path, False otherwise.
+            bool: True if the router has a route for the given path, False otherwise.
         """
 
 
@@ -109,7 +109,7 @@ class SimpleRouter(BaseRouter):
             path (str): The path to handle.
 
         Returns:
-            (str): The path with trailing slash added if necessary.
+            str: The path with trailing slash added if necessary.
         """
         if self._force_trailing_slashes and not path.endswith("/"):
             return f"{path}/"
@@ -123,7 +123,7 @@ class SimpleRouter(BaseRouter):
             path (str): The path to resolve the route for.
 
         Returns:
-            (ResolvedRoute): The resolved route.
+            ResolvedRoute: The resolved route.
         """
         path = self._handle_trailing_slashes(path)
         for route in self.routes:
@@ -140,7 +140,7 @@ class SimpleRouter(BaseRouter):
             path (str): The path to check.
 
         Returns:
-            (bool): True if the router has a route for the given path, False otherwise.
+            bool: True if the router has a route for the given path, False otherwise.
         """
         return self.resolve(path) is not None
 
@@ -172,6 +172,9 @@ class SimpleRouter(BaseRouter):
         Arguments:
             path (str): The path to add the route to.
             methods (Optional[List[str]]): The list of methods to add the route to.
+
+        Returns:
+            Callable: The decorated function.
         """
 
         def wrapper(view: Union[BaseView, Callable]):

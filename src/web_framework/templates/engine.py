@@ -57,7 +57,7 @@ class BaseTemplateEngine(ABC):
             context (Optional[Dict]): The context to use when rendering the template.
 
         Returns:
-            (Any): The rendered template.
+            Any: The rendered template.
         """
 
     @abstractmethod
@@ -68,7 +68,7 @@ class BaseTemplateEngine(ABC):
             template_name (str): The name of the template to check.
 
         Returns:
-            (bool): True if the template engine has a template with the given name,
+            bool: True if the template engine has a template with the given name,
                 False otherwise.
         """
 
@@ -102,7 +102,7 @@ class JinjaTemplateEngine(BaseTemplateEngine):
             context (Optional[Dict]): The context to use when rendering the template.
 
         Returns:
-            (Template): The rendered template.
+            Template: The rendered template.
         """
         if context is None:
             context = {}
@@ -119,7 +119,10 @@ class JinjaTemplateEngine(BaseTemplateEngine):
             template_name (str): The name of the template to check.
 
         Returns:
-            (bool): True if the template engine has a template with the given name,
+            bool: True if the template engine has a template with the given name,
                 False otherwise.
         """
         return template_name in self._env.loader.list_templates()
+
+
+__all__ = ["BaseTemplateEngine", "JinjaTemplateEngine"]

@@ -11,7 +11,7 @@ app = App(
     # Root application directory.
     root_dir=ROOT_DIR,
     # Directory where the static files are located.
-    static_dir=STATIC_DIR,
+    static_files_dir=STATIC_DIR,
 )
 
 
@@ -45,19 +45,19 @@ def limited_view(request, response):
     response.text = f"HTTP method: {request.method}!"
 
 
-@app.route("/book")
-class BooksResource(BaseView):
+@app.route("/class-view/")
+class SampleClassView(BaseView):
     """Sample class-based view with two methods implemented."""
 
     def get(  # pylint: disable=no-self-use,unused-argument
         self, request, response, **kwargs
     ):
-        response.text = "Books Page"
+        response.text = "Sample class-view GET page"
 
     def post(  # pylint: disable=no-self-use,unused-argument
         self, request, response, **kwargs
     ):
-        response.text = "Endpoint to create a book"
+        response.text = "Sample class-view POST page"
 
 
 def external(_, response):

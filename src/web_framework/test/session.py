@@ -30,7 +30,7 @@ class TestSession(RequestsSession):
         """The base URL of the test session.
 
         Returns:
-            (str): The base URL of the test session.
+            str: The base URL of the test session.
         """
         return self._base_url.rstrip("/")
 
@@ -45,7 +45,7 @@ class TestSession(RequestsSession):
             kwargs (Dict): The keyword arguments to pass to the request method.
 
         Returns:
-            (Response): The response of the request.
+            Response: The response of the request.
         """
         func = getattr(super(), method)
         if not func:
@@ -62,7 +62,7 @@ class TestSession(RequestsSession):
             kwargs (Dict): The keyword arguments to pass to the request method.
 
         Returns:
-            (Response): The response of the request.
+            Response: The response of the request.
         """
         return self._request("get", url, **kwargs)
 
@@ -76,7 +76,7 @@ class TestSession(RequestsSession):
             kwargs (Dict): The keyword arguments to pass to the request method.
 
         Returns:
-            (Response): The response of the request.
+            Response: The response of the request.
         """
         return self._request("post", url, data=data, json=json, **kwargs)
 
@@ -89,7 +89,7 @@ class TestSession(RequestsSession):
             kwargs (Dict): The keyword arguments to pass to the request method.
 
         Returns:
-            (Response): The response of the request.
+            Response: The response of the request.
         """
         return self._request("put", url, data=data, **kwargs)
 
@@ -102,7 +102,7 @@ class TestSession(RequestsSession):
             kwargs (Dict): The keyword arguments to pass to the request method.
 
         Returns:
-            (Response): The response of the request.
+            Response: The response of the request.
         """
         return self._request("patch", url, data=data, **kwargs)
 
@@ -114,7 +114,7 @@ class TestSession(RequestsSession):
             kwargs (Dict): The keyword arguments to pass to the request method.
 
         Returns:
-            (Response): The response of the request.
+            Response: The response of the request.
         """
         return self._request("delete", url, **kwargs)
 
@@ -137,6 +137,6 @@ class TestApp(App):
         """Return the test session.
 
         Returns:
-            (TestSession): The test session.
+            TestSession: The test session.
         """
         return TestSession(self._base_url, RequestsWSGIAdapter(self))

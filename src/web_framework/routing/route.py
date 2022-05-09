@@ -49,7 +49,7 @@ class Route:
             method (str): Optional, the request method.
 
         Returns:
-            (Callable): The handler.
+            Callable: The handler.
 
         Raises:
             (ValueError): If the method is not supported.
