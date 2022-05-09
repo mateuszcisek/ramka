@@ -1,6 +1,6 @@
 import pytest
 
-from web_framework.routing import ParsedRoute, Route
+from web_framework.routing import ResolvedRoute, Route
 
 
 def test_get_handler_with_class_based_view(sample_class_view):
@@ -32,7 +32,7 @@ def test_parsed_route_from_route(sample_class_view):
 
     route = Route("/sample_route", sample_class_view)
     params = {"param": "value"}
-    parsed_route = ParsedRoute.from_route(route, params)
+    parsed_route = ResolvedRoute.from_route(route, params)
 
     assert parsed_route.path == route.path
     assert parsed_route.view == route.view

@@ -2,7 +2,7 @@ from typing import Any, Callable, Dict, List, Optional, Type, Union
 
 from whitenoise import WhiteNoise
 
-from web_framework.middleware import BaseMiddleware
+from web_framework.middleware import Middleware
 from web_framework.request import Request
 from web_framework.response import Response
 from web_framework.routing import BaseRouter, SimpleRouter
@@ -22,7 +22,7 @@ class App:
         template_engine_kwargs: Optional[Dict] = None,
         http_404_not_found_handler: Optional[Callable] = None,
         error_handler: Optional[Callable] = None,
-        middleware_classes: Optional[List[Type[BaseMiddleware]]] = None,
+        middleware_classes: Optional[List[Type[Middleware]]] = None,
     ):
         self._router = router or SimpleRouter(**(router_kwargs or {}))
         self._template_engine = template_engine or JinjaTemplateEngine(
@@ -35,10 +35,10 @@ class App:
 
         self._whitenoise = WhiteNoise(self._wsgi_app, root=static_dir, prefix="static/")
 
-        self._middleware = BaseMiddleware(self)
+        self._middleware = Middleware(self)
         if middleware_classes:
             for middleware_class in middleware_classes:
-                self._middleware.add_middleware(middleware_class)
+                self._middleware.add(middleware_class)
 
     def __call__(self, environ, start_response):
         return self._whitenoise(environ, start_response)

@@ -22,6 +22,11 @@ class Route:
     Each argument can have a type specified. For example, path `/users/{id:d}/` means
     that the argument `id` should be a decimal number. For full list of supported types
     see https://github.com/r1chardj0n3s/parse#format-specification.
+
+    Fields:
+        path (str): The path.
+        view (Union[BaseView, Callable]): The view that will handle the path.
+        methods (Optional[List[str]]): The HTTP methods supported by the view.
     """
 
     def __init__(
@@ -35,6 +40,21 @@ class Route:
         self.methods = methods or ["get", "head", "options"]
 
     def get_handler(self, method: Optional[str] = "get") -> Callable:
+        """Get handler for the given method.
+
+        If the view is a class, the handler will be selected based on the request
+        method. If the view is a function, the handler will be the view itself.
+
+        Arguments:
+            method (str): Optional, the request method.
+
+        Returns:
+            (Callable): The handler.
+
+        Raises:
+            (ValueError): If the method is not supported.
+            (AttributeError): If the view is not a class or a function.
+        """
         method = (method or "get").lower()
 
         if isclass(self.view):
@@ -43,14 +63,17 @@ class Route:
 
             handler = getattr(self.view(), method, None)
             if handler is None:
-                raise AttributeError(f"Method {method} is not allowed.")
+                raise ValueError(f"Method {method} is not allowed.")
 
             return handler
 
-        if method not in self.methods:
-            raise ValueError(f"Method {method} is not allowed.")
+        if not callable(self.view):
+            if method not in self.methods:
+                raise ValueError(f"Method {method} is not allowed.")
 
-        return self.view
+            return self.view
+
+        raise AttributeError("View is not a class or a function.")
 
     def __str__(self) -> str:
         return f"{self.path} -> {self.view}"
@@ -59,16 +82,40 @@ class Route:
         return f"{self.path} -> {self.view}"
 
 
-class ParsedRoute(Route):
+class ResolvedRoute(Route):
+    """Resolved route representation.
+
+    A route defines a path (e.g. `/users/`) and a view (e.g. UserView).
+
+    A resolved route is a route with parameters resolved. It's used to match a
+    request to a view and to generate a response using the parameters.
+
+    Fields:
+        path (str): The path.
+        view (Union[BaseView, Callable]): The view that will handle the path.
+        methods (Optional[List[str]]): The HTTP methods supported by the view.
+        params (Dict[str, Any]): Resolved parameters.
+    """
+
     def __init__(
-        self, path: str, view: Union[BaseView, Callable], params: Dict[str, Any]
+        self,
+        path: str,
+        view: Union[BaseView, Callable],
+        methods: Optional[List[str]],
+        params: Dict[str, Any],
     ):
-        super().__init__(path, view)
+        super().__init__(path, view, methods)
         self.params = params
 
     @staticmethod
-    def from_route(route: Route, params: Dict) -> "ParsedRoute":
-        return ParsedRoute(route.path, route.view, params)
+    def from_route(route: Route, params: Dict[str, Any]) -> "ResolvedRoute":
+        """Create a resolved route from a route and parameters.
+
+        Arguments:
+            route (Route): The route.
+            params (Dict[str, Any]): The parameters.
+        """
+        return ResolvedRoute(route.path, route.view, route.methods, params)
 
     def __str__(self) -> str:
         return f"{self.path} ? {self.params} -> {self.view}"
@@ -77,4 +124,4 @@ class ParsedRoute(Route):
         return f"{self.path} ? {self.params} -> {self.view}"
 
 
-__all__ = ["Route", "ParsedRoute"]
+__all__ = ["Route", "ResolvedRoute"]

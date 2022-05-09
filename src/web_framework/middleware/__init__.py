@@ -1,3 +1,3 @@
-from web_framework.middleware.base_middleware import BaseMiddleware
+from web_framework.middleware.base_middleware import Middleware
 
-__all__ = ["BaseMiddleware"]
+__all__ = ["Middleware"]
