@@ -55,6 +55,8 @@ class WhiteNoiseEngine(BaseStaticFilesEngine):
     This engine uses WhiteNoise library to load, and render static files.
     """
 
+    _env: WhiteNoise = None
+
     def __init__(
         self,
         app,
