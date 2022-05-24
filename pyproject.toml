@@ -21,6 +21,7 @@ pytest = "^7.1.2"
 requests-wsgi-adapter = "^0.4.1"
 shellcheck-py = "^0.8.0"
 ipython = "^8.3.0"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
