@@ -66,4 +66,4 @@ def test_add():
     middleware.add(mock_middleware)
 
     mock_middleware.assert_called_once_with(mock_app)
-    assert middleware._app == mock_new_app
+    assert middleware._app == mock_new_app  # pylint: disable=protected-access

@@ -58,9 +58,6 @@ class Route:
         method = (method or "get").lower()
 
         if isclass(self.view):
-            if not method:
-                raise ValueError("Method is required for class-based views.")
-
             handler = getattr(self.view(), method, None)
             if handler is None:
                 raise ValueError(f"Method {method} is not allowed.")
@@ -118,7 +115,8 @@ class ResolvedRoute(Route):
         return ResolvedRoute(route.path, route.view, route.methods, params)
 
     def __str__(self) -> str:
-        return f"{self.path} ? {self.params} -> {self.view}"
+        params_str = "&".join(f"{k}={v}" for k, v in self.params.items())
+        return f"{self.path} ? {params_str} -> {self.view}"
 
     def __repr__(self) -> str:
         return f"{self.path} ? {self.params} -> {self.view}"
