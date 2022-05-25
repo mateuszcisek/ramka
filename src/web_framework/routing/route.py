@@ -60,13 +60,13 @@ class Route:
         if isclass(self.view):
             handler = getattr(self.view(), method, None)
             if handler is None:
-                raise ValueError(f"Method {method} is not allowed.")
+                raise NotImplementedError(f"Method {method} is not allowed.")
 
             return handler
 
         if callable(self.view):
             if method not in self.methods:
-                raise ValueError(f"Method {method} is not allowed.")
+                raise NotImplementedError(f"Method {method} is not allowed.")
 
             return self.view
 

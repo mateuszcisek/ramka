@@ -24,7 +24,7 @@ def test_get_handler_with_class_based_view_incorrect_method(sample_class_view):
     """
     route = Route("/sample_route", sample_class_view)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(NotImplementedError):
         route.get_handler("incorrect_view")
 
 
@@ -49,7 +49,7 @@ def test_get_handler_with_function_view_incorrect_method(sample_func_view):
     """
     route = Route("/sample_route", sample_func_view)
 
-    with pytest.raises(ValueError):
+    with pytest.raises(NotImplementedError):
         route.get_handler("post")
 
 

@@ -1,5 +1,3 @@
-import os
-
 from requests import Session as RequestsSession
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 
@@ -119,24 +117,21 @@ class TestSession(RequestsSession):
         return self._request("delete", url, **kwargs)
 
 
-class TestApp(App):
-    """The test app class.
+def create_test_app(app: App, base_url: str = "http://testserver") -> App:
+    """Create a test app.
 
-    The test app is a wrapper around the web_framework.app.App class. It provides
-    a test session to make testing easier.
+    It add a test session to the app existing app object to make it usable for testing.
+    The test session is be added as a property called `test_session`.
     """
 
-    def __init__(self, *, base_url: str = "http://testserver"):
-        super().__init__(
-            root_dir=os.getcwd(),
-        )
-        self._base_url = base_url
-
-    @property
-    def test_session(self) -> TestSession:
+    def test_session(_) -> TestSession:
         """Return the test session.
 
         Returns:
             TestSession: The test session.
         """
-        return TestSession(self._base_url, RequestsWSGIAdapter(self))
+        return TestSession(base_url, RequestsWSGIAdapter(app))
+
+    setattr(type(app), "test_session", property(test_session))
+
+    return app
