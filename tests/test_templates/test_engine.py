@@ -65,6 +65,25 @@ def test_jinja_engine_render_calls_correct_methods(  # pylint: disable=unused-ar
 
 
 @patch("web_framework.templates.engine.os.path.isdir")
+def test_jinja_engine_render_raises_error_when_template_doesnt_exist(  # pylint: disable=unused-argument
+    mock_isdir,
+):
+    """
+    Given a JinjaTemplateEngine
+    When I call the `render` method
+    And the template that I want to render does not exist
+    Then an exception should be raised.
+    """
+    # pylint: disable=no-member, protected-access
+    mock_isdir.return_value = True
+
+    engine = JinjaTemplateEngine("sample_directory")
+
+    with pytest.raises(FileNotFoundError):
+        engine.render("sample_template.html")
+
+
+@patch("web_framework.templates.engine.os.path.isdir")
 @patch("web_framework.templates.engine.Environment")
 def test_jinja_engine_has_template_calls_correct_method(  # pylint: disable=unused-argument
     mock_enviroment, mock_isdir
@@ -81,3 +100,27 @@ def test_jinja_engine_has_template_calls_correct_method(  # pylint: disable=unus
     engine.has_template("sample_template.html")
 
     engine._env.loader.list_templates.assert_called_once()
+
+
+def test_jinja_engine_initialized_with_non_existing_directory():
+    """
+    When I initialize the JinjaTemplateEngine with non-existing directory
+    Then an exception should be raised.
+    """
+    with tempfile.TemporaryDirectory() as root_dir:
+        with pytest.raises(FileNotFoundError):
+            JinjaTemplateEngine(os.path.join(root_dir, "non_existing"))
+
+
+def test_jinja_engine_initialized_with_file_instead_of_directory():
+    """
+    When I initialize the JinjaTemplateEngine with a file instead of a directory
+    Then an exception should be raised.
+    """
+    with tempfile.TemporaryDirectory() as root_dir:
+        file_path = os.path.join(root_dir, "file.txt")
+        with open(file_path, "w", encoding="utf-8") as file_:
+            file_.write("Hello, world!")
+
+        with pytest.raises(FileNotFoundError):
+            JinjaTemplateEngine(file_path)
