@@ -3,6 +3,8 @@ import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+import pytest
+
 from web_framework.static.engine import WhiteNoiseEngine
 
 
@@ -50,3 +52,27 @@ def test_whitenoise_engine_call_calls_correct_methods(mock_isdir):
         engine(mock_environ, mock_start_response)
 
         engine._env.assert_called_once_with(mock_environ, mock_start_response)
+
+
+def test_whitenoise_engine_initialized_with_non_existing_directory():
+    """
+    When I initialize the WhiteNoiseEngine with non-existing directory
+    Then an exception should be raised.
+    """
+    with tempfile.TemporaryDirectory() as root_dir:
+        with pytest.raises(FileNotFoundError):
+            WhiteNoiseEngine(Mock(), os.path.join(root_dir, "non_existing"))
+
+
+def test_whitenoise_engine_initialized_with_file_instead_of_directory():
+    """
+    When I initialize the WhiteNoiseEngine with a file instead of a directory
+    Then an exception should be raised.
+    """
+    with tempfile.TemporaryDirectory() as root_dir:
+        file_path = os.path.join(root_dir, "file.txt")
+        with open(file_path, "w", encoding="utf-8") as file_:
+            file_.write("Hello, world!")
+
+        with pytest.raises(FileNotFoundError):
+            WhiteNoiseEngine(Mock(), file_path)
