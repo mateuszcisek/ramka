@@ -2,7 +2,7 @@
 name = "web-framework"
 version = "0.1.0"
 description = ""
-authors = ["Mateusz Cisek <mateusz.cisek@eigentech.com>"]
+authors = ["Mateusz Cisek <cismat@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
