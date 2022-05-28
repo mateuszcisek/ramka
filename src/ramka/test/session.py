@@ -1,8 +1,8 @@
 from requests import Session as RequestsSession
 from wsgiadapter import WSGIAdapter as RequestsWSGIAdapter
 
-from web_framework.app import App
-from web_framework.response import Response
+from ramka.app import App
+from ramka.response import Response
 
 
 class TestSession(RequestsSession):

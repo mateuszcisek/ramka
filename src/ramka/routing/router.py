@@ -3,8 +3,8 @@ from typing import Callable, List, Optional, Union
 
 from parse import parse
 
-from web_framework.routing.route import ResolvedRoute, Route
-from web_framework.views import BaseView
+from ramka.routing.route import ResolvedRoute, Route
+from ramka.views import BaseView
 
 
 class BaseRouter(ABC):

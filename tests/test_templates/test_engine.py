@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
-from web_framework.templates import JinjaTemplateEngine
+from ramka.templates import JinjaTemplateEngine
 
 
 def test_jinja_engine_initialized_with_correct_root_dir():
@@ -34,8 +34,8 @@ def test_jinja_engine_initialized_with_correct_root_dir():
         assert not engine.has_template("sample_template.html")
 
 
-@patch("web_framework.templates.engine.os.path.isdir")
-@patch("web_framework.templates.engine.Environment")
+@patch("ramka.templates.engine.os.path.isdir")
+@patch("ramka.templates.engine.Environment")
 @pytest.mark.parametrize(
     "actual_context, expected_call_kwargs",
     (
@@ -64,7 +64,7 @@ def test_jinja_engine_render_calls_correct_methods(  # pylint: disable=unused-ar
     )
 
 
-@patch("web_framework.templates.engine.os.path.isdir")
+@patch("ramka.templates.engine.os.path.isdir")
 def test_jinja_engine_render_raises_error_when_template_doesnt_exist(  # pylint: disable=unused-argument
     mock_isdir,
 ):
@@ -83,8 +83,8 @@ def test_jinja_engine_render_raises_error_when_template_doesnt_exist(  # pylint:
         engine.render("sample_template.html")
 
 
-@patch("web_framework.templates.engine.os.path.isdir")
-@patch("web_framework.templates.engine.Environment")
+@patch("ramka.templates.engine.os.path.isdir")
+@patch("ramka.templates.engine.Environment")
 def test_jinja_engine_has_template_calls_correct_method(  # pylint: disable=unused-argument
     mock_enviroment, mock_isdir
 ):

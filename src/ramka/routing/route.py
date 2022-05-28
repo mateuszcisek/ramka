@@ -1,7 +1,7 @@
 from inspect import isclass
 from typing import Any, Callable, Dict, List, Optional, Union
 
-from web_framework.views import BaseView
+from ramka.views import BaseView
 
 
 class Route:
@@ -12,7 +12,7 @@ class Route:
     The path should always be absolute which means it should start with a forward slash.
     It can consist of multiple arguments (e.g. `/users/{id}/`) and needs to be unique.
 
-    The view can be either a class (that inherits from `web_framework.views.BaseView`)
+    The view can be either a class (that inherits from `ramka.views.BaseView`)
     or a function that accepts two arguments: the request and the response. For
     function-based views, additional argument with all supported methods can be
     specified. By default, each view only supports GET requests. For class-based views,

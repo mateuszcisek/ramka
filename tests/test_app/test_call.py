@@ -1,7 +1,7 @@
 import tempfile
 from unittest.mock import Mock
 
-from web_framework.app import App
+from ramka.app import App
 
 
 def test_app_call_with_static_files_engine():

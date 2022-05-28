@@ -3,10 +3,10 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from web_framework.app import App
+from ramka.app import App
 
 
-@patch("web_framework.app.Response")
+@patch("ramka.app.Response")
 def test_handle_request_success(mock_response_cls):
     """
     When the method `_handle_request` is called
@@ -52,7 +52,7 @@ def test_handle_request_success(mock_response_cls):
         assert result == mock_response
 
 
-@patch("web_framework.app.Response")
+@patch("ramka.app.Response")
 def test_handle_request_invalid_path(mock_response_cls):
     """
     When the method `_handle_request` is called
@@ -89,7 +89,7 @@ def test_handle_request_invalid_path(mock_response_cls):
         assert result == mock_response
 
 
-@patch("web_framework.app.Response")
+@patch("ramka.app.Response")
 def test_handle_request_handler_not_implemented(mock_response_cls):
     """
     When the method `_handle_request` is called
@@ -129,7 +129,7 @@ def test_handle_request_handler_not_implemented(mock_response_cls):
         assert result == mock_response
 
 
-@patch("web_framework.app.Response")
+@patch("ramka.app.Response")
 def test_handle_request_handler_raised_error(mock_response_cls):
     """
     When the method `_handle_request` is called

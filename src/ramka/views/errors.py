@@ -1,6 +1,6 @@
 import json
 
-from web_framework.response import Response
+from ramka.response import Response
 
 
 def _error_page(response: Response, error_code: int, message: str) -> None:

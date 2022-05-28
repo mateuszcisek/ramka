@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from web_framework.static.engine import WhiteNoiseEngine
+from ramka.static.engine import WhiteNoiseEngine
 
 
 def test_whitenoise_engine_initialized_with_correct_files():
@@ -33,7 +33,7 @@ def test_whitenoise_engine_initialized_with_correct_files():
         assert engine.has_file("/static/module_2/file_2.jpg")
 
 
-@patch("web_framework.static.engine.os.path.isdir")
+@patch("ramka.static.engine.os.path.isdir")
 def test_whitenoise_engine_call_calls_correct_methods(mock_isdir):
     """
     Given a WhiteNoiseEngine

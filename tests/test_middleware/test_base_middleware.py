@@ -1,9 +1,9 @@
 from unittest.mock import Mock, patch
 
-from web_framework.middleware import Middleware
+from ramka.middleware import Middleware
 
 
-@patch("web_framework.middleware.base_middleware.Request")
+@patch("ramka.middleware.base_middleware.Request")
 def test_call(mock_request):
     """
     When the middleware is called

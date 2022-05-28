@@ -1,6 +1,6 @@
 import pytest
 
-from web_framework.routing import ResolvedRoute, Route
+from ramka.routing import ResolvedRoute, Route
 
 
 def test_get_handler_with_class_based_view(sample_class_view):

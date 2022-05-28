@@ -1,12 +1,12 @@
 from typing import Any, Callable, Dict, List, Optional, Type, Union
 
-from web_framework.middleware import Middleware
-from web_framework.request import Request
-from web_framework.response import Response
-from web_framework.routing import BaseRouter, SimpleRouter
-from web_framework.static import BaseStaticFilesEngine, WhiteNoiseEngine
-from web_framework.templates import BaseTemplateEngine, JinjaTemplateEngine
-from web_framework.views import (
+from ramka.middleware import Middleware
+from ramka.request import Request
+from ramka.response import Response
+from ramka.routing import BaseRouter, SimpleRouter
+from ramka.static import BaseStaticFilesEngine, WhiteNoiseEngine
+from ramka.templates import BaseTemplateEngine, JinjaTemplateEngine
+from ramka.views import (
     BaseView,
     default_error_handler,
     http_404_not_found,

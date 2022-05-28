@@ -1,6 +1,6 @@
 import pytest
 
-from web_framework.routing import SimpleRouter
+from ramka.routing import SimpleRouter
 
 
 def test_simple_router_add_route(sample_func_view):

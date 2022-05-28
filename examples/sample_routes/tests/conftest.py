@@ -3,7 +3,7 @@ import os
 import pytest
 
 from examples.sample_routes.app import App
-from web_framework.test import TestSession, create_test_app
+from ramka.test import TestSession, create_test_app
 
 
 @pytest.fixture(name="app")

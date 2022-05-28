@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "web-framework"
+name = "ramka"
 version = "0.1.0"
 description = ""
 authors = ["Mateusz Cisek <cismat@gmail.com>"]

@@ -1,7 +1,7 @@
 from abc import ABC
 
-from web_framework.request import Request
-from web_framework.response import Response
+from ramka.request import Request
+from ramka.response import Response
 
 
 class BaseView(ABC):  # pylint: disable=too-few-public-methods

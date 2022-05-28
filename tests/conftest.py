@@ -1,6 +1,6 @@
 import pytest
 
-from web_framework.views.base_view import BaseView
+from ramka.views.base_view import BaseView
 
 
 @pytest.fixture(name="sample_class_view")

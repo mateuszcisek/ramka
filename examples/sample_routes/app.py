@@ -1,7 +1,7 @@
 import os
 
-from web_framework.app import App
-from web_framework.views import BaseView
+from ramka.app import App
+from ramka.views import BaseView
 
 ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
 STATIC_DIR = os.path.join(ROOT_DIR, "static")

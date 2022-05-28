@@ -1,20 +1,20 @@
 import tempfile
 from unittest.mock import Mock, patch
 
-from web_framework.app import App
-from web_framework.routing import SimpleRouter
-from web_framework.static import WhiteNoiseEngine
-from web_framework.templates import JinjaTemplateEngine
-from web_framework.views.errors import (
+from ramka.app import App
+from ramka.routing import SimpleRouter
+from ramka.static import WhiteNoiseEngine
+from ramka.templates import JinjaTemplateEngine
+from ramka.views.errors import (
     default_error_handler,
     http_404_not_found,
     http_405_method_not_allowed,
 )
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_static_files_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_static_files_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_default_router(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_static_files_engine,
@@ -31,10 +31,10 @@ def test_initialize_with_default_router(  # pylint: disable=unused-argument
     assert isinstance(app._router, SimpleRouter)
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_static_files_engine")
-@patch("web_framework.app.App._initialize_middleware")
-@patch("web_framework.app.SimpleRouter")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_static_files_engine")
+@patch("ramka.app.App._initialize_middleware")
+@patch("ramka.app.SimpleRouter")
 def test_initialize_with_default_router_kwargs(  # pylint: disable=unused-argument
     mock_router,
     mock_initialize_middleware,
@@ -52,9 +52,9 @@ def test_initialize_with_default_router_kwargs(  # pylint: disable=unused-argume
     mock_router.assert_called_with(foo="bar")
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_static_files_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_static_files_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_custom_router(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_static_files_engine,
@@ -72,8 +72,8 @@ def test_initialize_with_custom_router(  # pylint: disable=unused-argument
     assert app._router == mock_router
 
 
-@patch("web_framework.app.App._initialize_static_files_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_static_files_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_default_template_engine(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_static_files_engine,
@@ -90,9 +90,9 @@ def test_initialize_with_default_template_engine(  # pylint: disable=unused-argu
         assert isinstance(app._template_engine, JinjaTemplateEngine)
 
 
-@patch("web_framework.app.App._initialize_static_files_engine")
-@patch("web_framework.app.App._initialize_middleware")
-@patch("web_framework.app.JinjaTemplateEngine")
+@patch("ramka.app.App._initialize_static_files_engine")
+@patch("ramka.app.App._initialize_middleware")
+@patch("ramka.app.JinjaTemplateEngine")
 def test_initialize_with_default_template_engine_kwargs(  # pylint: disable=unused-argument
     mock_template_engine,
     mock_initialize_static_files_engine,
@@ -110,8 +110,8 @@ def test_initialize_with_default_template_engine_kwargs(  # pylint: disable=unus
         mock_template_engine.assert_called_with(foo="bar")
 
 
-@patch("web_framework.app.App._initialize_static_files_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_static_files_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_custom_template_engine(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_static_files_engine,
@@ -128,8 +128,8 @@ def test_initialize_with_custom_template_engine(  # pylint: disable=unused-argum
     assert app._template_engine == mock_template_engine
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_static_files_engine(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -147,8 +147,8 @@ def test_initialize_with_static_files_engine(  # pylint: disable=unused-argument
         assert isinstance(app._static_files_engine, WhiteNoiseEngine)
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_no_static_files_directory(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -165,9 +165,9 @@ def test_initialize_with_no_static_files_directory(  # pylint: disable=unused-ar
         assert app._static_files_engine is None
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
-@patch("web_framework.app.WhiteNoiseEngine")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
+@patch("ramka.app.WhiteNoiseEngine")
 def test_initialize_with_default_static_files_engine_kwargs(  # pylint: disable=unused-argument
     mock_static_files_engine,
     mock_initialize_static_files_engine,
@@ -190,8 +190,8 @@ def test_initialize_with_default_static_files_engine_kwargs(  # pylint: disable=
         mock_static_files_engine.assert_called_with(foo="bar")
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_custom_static_files_engine(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -213,8 +213,8 @@ def test_initialize_with_custom_static_files_engine(  # pylint: disable=unused-a
         assert app._static_files_engine == mock_static_files_engine
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_default_404_handler(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -231,8 +231,8 @@ def test_initialize_with_default_404_handler(  # pylint: disable=unused-argument
         assert app._http_404_handler == http_404_not_found
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_custom_404_handler(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -250,8 +250,8 @@ def test_initialize_with_custom_404_handler(  # pylint: disable=unused-argument
         assert app._http_404_handler == mock_404_handler
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_default_405_handler(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -268,8 +268,8 @@ def test_initialize_with_default_405_handler(  # pylint: disable=unused-argument
         assert app._http_405_handler == http_405_method_not_allowed
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_custom_405_handler(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -287,8 +287,8 @@ def test_initialize_with_custom_405_handler(  # pylint: disable=unused-argument
         assert app._http_405_handler == mock_405_handler
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_default_error_handler(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -305,8 +305,8 @@ def test_initialize_with_default_error_handler(  # pylint: disable=unused-argume
         assert app._error_handler == default_error_handler
 
 
-@patch("web_framework.app.App._initialize_template_engine")
-@patch("web_framework.app.App._initialize_middleware")
+@patch("ramka.app.App._initialize_template_engine")
+@patch("ramka.app.App._initialize_middleware")
 def test_initialize_with_custom_error_handler(  # pylint: disable=unused-argument
     mock_initialize_middleware,
     mock_initialize_template_engine,
@@ -324,7 +324,7 @@ def test_initialize_with_custom_error_handler(  # pylint: disable=unused-argumen
         assert app._error_handler == mock_error_handler
 
 
-@patch("web_framework.app.Middleware")
+@patch("ramka.app.Middleware")
 def test_initialize_middleware_with_no_custom_middleware(mock_middleware):
     """
     When the app is initialized
@@ -339,7 +339,7 @@ def test_initialize_middleware_with_no_custom_middleware(mock_middleware):
         mock_middleware.return_value.add.assert_not_called()
 
 
-@patch("web_framework.app.Middleware")
+@patch("ramka.app.Middleware")
 def test_initialize_middleware_with_custom_middleware(mock_middleware):
     """
     When the app is initialized

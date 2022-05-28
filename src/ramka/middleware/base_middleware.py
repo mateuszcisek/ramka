@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Type
 
-from web_framework.request import Request
-from web_framework.response import Response
+from ramka.request import Request
+from ramka.response import Response
 
 if TYPE_CHECKING:
-    from web_framework.app import App
+    from ramka.app import App
 
 
 class Middleware:

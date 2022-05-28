@@ -1,6 +1,6 @@
 from unittest.mock import Mock, patch
 
-from web_framework.views.errors import (
+from ramka.views.errors import (
     _error_page,
     default_error_handler,
     http_404_not_found,
@@ -23,7 +23,7 @@ def test_error_page():
     assert mock_response.text == '{"error": "Not found."}'
 
 
-@patch("web_framework.views.errors._error_page")
+@patch("ramka.views.errors._error_page")
 def test_http_404_not_found(mock_error_page):
     """
     Given a response object
@@ -36,7 +36,7 @@ def test_http_404_not_found(mock_error_page):
     mock_error_page.assert_called_once_with(mock_response, 404, "Not found.")
 
 
-@patch("web_framework.views.errors._error_page")
+@patch("ramka.views.errors._error_page")
 def test_http_405_not_found(mock_error_page):
     """
     Given a response object
@@ -49,7 +49,7 @@ def test_http_405_not_found(mock_error_page):
     mock_error_page.assert_called_once_with(mock_response, 405, "Method not allowed.")
 
 
-@patch("web_framework.views.errors._error_page")
+@patch("ramka.views.errors._error_page")
 def test_default_error_handler(mock_error_page):
     """
     Given a response object

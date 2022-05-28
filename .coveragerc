@@ -4,7 +4,7 @@
 omit =
   **/tests/**
   **/__init__.py
-  src/web_framework/test/**
+  src/ramka/test/**
 
 # Whether to measure branch coverage in addition to statement coverage.
 branch = True
@@ -37,4 +37,4 @@ exclude_lines =
 directory = .coverage_html_report
 
 # The title to use for the report.
-title = Web framework tests coverage report
+title = ramka - tests coverage report

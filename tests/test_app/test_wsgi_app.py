@@ -1,10 +1,10 @@
 import tempfile
 from unittest.mock import Mock, patch
 
-from web_framework.app import App
+from ramka.app import App
 
 
-@patch("web_framework.app.Request")
+@patch("ramka.app.Request")
 def test_wsgi_app_call(mock_request):
     """
     When the WSGI application is called
