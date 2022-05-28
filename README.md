@@ -11,11 +11,11 @@ ramka is a very small web framework written in Python.
 
 ## Documentation
 
-Comming soon :)
+Coming soon :)
 
 ## Installation
 
-Comming soon :)
+Coming soon :)
 
 ## License
 
