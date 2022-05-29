@@ -16,3 +16,15 @@ example-sample-routes:
 
 shell:
 	PYTHONPATH=./src poetry run ipython --pprint --color-info
+
+documentation:
+	rm -r docs/build
+	poetry run sphinx-build docs/source docs/build
+
+documentation-examples:
+	rm -r docs/source/content/source_code
+	poetry run sphinx-apidoc -o docs/source/content/source_code src/ramka
+
+documentation-source-code:
+	rm -r docs/source/content/example_projects
+	poetry run sphinx-apidoc -o docs/source/content/example_projects examples/
