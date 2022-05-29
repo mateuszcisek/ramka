@@ -63,10 +63,10 @@ class App:
         self._template_engine = self._initialize_template_engine(
             root_dir, template_engine, template_engine_kwargs
         )
+        self._middleware = self._initialize_middleware(middleware_classes)
         self._static_files_engine = self._initialize_static_files_engine(
             static_files_dir, static_files_engine, static_files_engine_kwargs
         )
-        self._middleware = self._initialize_middleware(middleware_classes)
 
         self._http_404_handler = http_404_not_found_handler or http_404_not_found
         self._http_405_handler = (
@@ -78,7 +78,7 @@ class App:
         if self._static_files_engine:
             return self._static_files_engine(environ, start_response)
 
-        return self._wsgi_app(environ, start_response)
+        return self._middleware(environ, start_response)
 
     def _initialize_template_engine(  # pylint: disable=no-self-use
         self,
@@ -118,7 +118,7 @@ class App:
             return None
 
         return engine or WhiteNoiseEngine(
-            **(arguments or {"app": self._wsgi_app, "root_dir": static_files_dir})
+            **(arguments or {"app": self._middleware, "root_dir": static_files_dir})
         )
 
     def _initialize_middleware(
@@ -140,21 +140,7 @@ class App:
 
         return middleware
 
-    def _wsgi_app(self, environ, start_response):
-        """The WSGI application.
-
-        Arguments:
-            environ (Dict): The WSGI environment.
-            start_response (Callable): The WSGI start response function.
-
-        Returns:
-            The response body.
-        """
-        request = Request(environ)
-        response = self._handle_request(request)
-        return response(environ, start_response)
-
-    def _handle_request(self, request: Request) -> Response:
+    def handle_request(self, request: Request) -> Response:
         """Handle a request.
 
         Arguments:

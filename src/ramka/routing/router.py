@@ -45,13 +45,14 @@ class BaseRouter(ABC):
         """
 
     @abstractmethod
-    def route(self, path: str) -> Callable:
+    def route(self, path: str, methods: Optional[List[str]] = None) -> Callable:
         """Add a route to the router.
 
         It's supposed to be used as a decorator.
 
         Arguments:
             path (str): The path to add the route to.
+            methods (Optional[List[str]]): The list of methods to add the route to.
         """
 
     @abstractmethod

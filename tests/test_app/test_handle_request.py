@@ -39,7 +39,7 @@ def test_handle_request_success(mock_response_cls):
             error_handler=mock_error_handler,
         )
 
-        result = app._handle_request(mock_request)
+        result = app.handle_request(mock_request)
 
         mock_router.resolve.assert_called_once_with(mock_request.path)
         mock_parsed_route.get_handler.assert_called_once_with(mock_request.method)
@@ -80,7 +80,7 @@ def test_handle_request_invalid_path(mock_response_cls):
             error_handler=mock_error_handler,
         )
 
-        result = app._handle_request(mock_request)
+        result = app.handle_request(mock_request)
 
         mock_router.resolve.assert_called_once_with(mock_request.path)
         mock_404_handler.assert_called_once_with(mock_request, mock_response)
@@ -120,7 +120,7 @@ def test_handle_request_handler_not_implemented(mock_response_cls):
             error_handler=mock_error_handler,
         )
 
-        result = app._handle_request(mock_request)
+        result = app.handle_request(mock_request)
 
         mock_router.resolve.assert_called_once_with(mock_request.path)
         mock_405_handler.assert_called_once_with(mock_request, mock_response)
@@ -160,7 +160,7 @@ def test_handle_request_handler_raised_error(mock_response_cls):
             error_handler=mock_error_handler,
         )
 
-        result = app._handle_request(mock_request)
+        result = app.handle_request(mock_request)
 
         mock_router.resolve.assert_called_once_with(mock_request.path)
 
@@ -176,7 +176,7 @@ def test_handle_request_handler_raised_error(mock_response_cls):
 
 def test_handle_request_handler_raised_error_with_no_error_handler():
     """
-    When the method `_handle_request` is called
+    When the method `handle_request` is called
     And route handler raises an unexpected error
     And the error handler is not defined in the app
     Then the error is raised.
@@ -195,4 +195,4 @@ def test_handle_request_handler_raised_error_with_no_error_handler():
         app._error_handler = None
 
         with pytest.raises(ValueError):
-            app._handle_request(mock_request)
+            app.handle_request(mock_request)
