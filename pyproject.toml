@@ -13,6 +13,7 @@ license = "MIT"
 
 repository = "https://github.com/mateuszcisek/ramka"
 homepage = "https://github.com/mateuszcisek/ramka"
+documentation = "https://ramka.readthedocs.io"
 
 include = ["LICENSE", "README.md", "CHANGELOG.md"]
 
