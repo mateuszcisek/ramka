@@ -24,7 +24,7 @@ As I said it's still a work in progress. Some features I am planning to add:
   installable plugins.
 
 There will be probably more but it's difficult for me to say at the moment.
-Anyway, I would rather treat this as a learning project than a real framework.
+Anyway, I would treat this as a learning project rather than a real framework.
 Feel free to try it out and send me any feedback.
 
 Contents
@@ -35,4 +35,5 @@ Contents
 
    content/installation
    content/usage
+   content/features/index
    content/source_code/modules
