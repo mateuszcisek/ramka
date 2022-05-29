@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ramka"
-version = "0.1.1"
+version = "0.1.2"
 description = "ramka - a simple Python web framework"
 authors = ["Mateusz Cisek <cismat@gmail.com>"]
 keywords = [
@@ -14,7 +14,7 @@ license = "MIT"
 repository = "https://github.com/mateuszcisek/ramka"
 homepage = "https://github.com/mateuszcisek/ramka"
 
-include = ["LICENSE", "README.md"]
+include = ["LICENSE", "README.md", "CHANGELOG.md"]
 
 classifiers = [
     "Programming Language :: Python",
